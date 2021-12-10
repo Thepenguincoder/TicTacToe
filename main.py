@@ -30,6 +30,14 @@ class MyCapableAgent(EvaluationAgent):
         if MyCapableAgent.isWinner(boardCopy, my_symbol):
           return i
 
+    for i in range (0,9):
+      boardCopy = MyCapableAgent.getBoardCopy(board)
+      if boardCopy[i] != None:
+        boardCopy[i] = opponent_symbol
+        if MyCapableAgent.isWinner(boardCopy, opponent_symbol):
+          return i
+    
+
     return random.randint(0,8)
 
 
