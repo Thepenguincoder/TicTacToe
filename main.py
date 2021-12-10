@@ -15,14 +15,14 @@ class MyCapableAgent(EvaluationAgent):
   def evaluate(self, board, my_symbol, opponent_symbol):
     for i in range (0,9):
       boardCopy = MyCapableAgent.getBoardCopy(board)
-      if boardCopy[i] != None:
+      if boardCopy[i] == None:
         boardCopy[i] = my_symbol
         if is_winner(boardCopy, my_symbol):
           return i
 
     for i in range (0,9):
       boardCopy = MyCapableAgent.getBoardCopy(board)
-      if boardCopy[i] != None:
+      if boardCopy[i] == None or boardCopy[i] == '':
         boardCopy[i] = opponent_symbol
         if is_winner(boardCopy, opponent_symbol):
           return i
