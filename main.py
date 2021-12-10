@@ -1,5 +1,5 @@
 import random
-from bke import EvaluationAgent, start
+from bke import EvaluationAgent, start, is_winner
 
 #class MyRandomAgent(EvaluationAgent):
  # def evaluate(self, board, my_symbol, opponent_symbol):
@@ -11,30 +11,20 @@ class MyCapableAgent(EvaluationAgent):
     for i in board:
       boardCopy.append(i)
     return boardCopy
-
-  def isWinner(bo, le):
-    return ((bo[7] == le and bo[8] == le and bo[9] == le) or
-    (bo[4] == le and bo[5] == le and bo[6] == le) or
-    (bo[1] == le and bo[2] == le and bo[3] == le) or
-    (bo[7] == le and bo[4] == le and bo[1] == le) or
-    (bo[8] == le and bo[5] == le and bo[2] == le) or
-    (bo[9] == le and bo[6] == le and bo[3] == le) or
-    (bo[7] == le and bo[5] == le and bo[3] == le) or
-    (bo[9] == le and bo[5] == le and bo[1] == le))
   
   def evaluate(self, board, my_symbol, opponent_symbol):
     for i in range (0,9):
       boardCopy = MyCapableAgent.getBoardCopy(board)
       if boardCopy[i] != None:
         boardCopy[i] = my_symbol
-        if MyCapableAgent.isWinner(boardCopy, my_symbol):
+        if is_winner(boardCopy, my_symbol):
           return i
 
     for i in range (0,9):
       boardCopy = MyCapableAgent.getBoardCopy(board)
       if boardCopy[i] != None:
         boardCopy[i] = opponent_symbol
-        if MyCapableAgent.isWinner(boardCopy, opponent_symbol):
+        if is_winner(boardCopy, opponent_symbol):
           return i
     
 
