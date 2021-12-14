@@ -1,52 +1,28 @@
+from _ml import MLAgent, train, save, load, train_and_plot, RandomAgent
+from _core import is_winner, opponent, start
+
 import random
-from bke import EvaluationAgent, start, is_winner
-
-#class MyRandomAgent(EvaluationAgent):
- # def evaluate(self, board, my_symbol, opponent_symbol):
-  #  return random.randint(1, 500)
-
-class MyCapableAgent(EvaluationAgent):
-  def getBoardCopy(board):
-    boardCopy = []
-    for i in board:
-      boardCopy.append(i)
-    return boardCopy
-  
-  def evaluate(self, board, my_symbol, opponent_symbol):
-    for i in board:
-      boardCopy = MyCapableAgent.getBoardCopy(board)
-      if boardCopy[i] == None:
-        boardCopy[i] = my_symbol
-        if is_winner(boardCopy, my_symbol):
-          return i
-
-    for i in board:
-      boardCopy = MyCapableAgent.getBoardCopy(board)
-      if boardCopy[i] == None or boardCopy[i] == '':
-        boardCopy[i] = opponent_symbol
-        if is_winner(boardCopy, opponent_symbol):
-          return i
+ 
+ 
+class MyAgent(MLAgent):
+    def evaluate(self, board):
+        if is_winner(board, self.symbol):
+            reward = 1
+        elif is_winner(board, opponent[self.symbol]):
+            reward = -1
+        else:
+            reward = 0
+        return reward
     
-    cornerMoves = [0,2,6,8]
-    possibleMoves = []
-    for i in cornerMoves:
-      if board[i] == None or board[i] == '':
-        possibleMoves.append(i)
-        if len(possibleMoves) != 0:
-          return random.choice(possibleMoves)
-
-    sideMoves = [1,3,5,7]
-    possibleMoves = []
-    for i in sideMoves:
-      if board[i] == None or board[i] == '':
-        possibleMoves.append(i)
-        if len(possibleMoves) != 0:
-          return random.choice(possibleMoves)
-
-    return random.randint(0,8)
-
-
-
-#my_random_agent = MyRandomAgent()
-my_agent = MyCapableAgent()
-start(player_o = my_agent)
+    
+random.seed(1)
+ 
+my_agent = MyAgent(alpha=0.2, epsilon=0.8)
+random_agent = RandomAgent()
+ 
+train_and_plot(
+    agent=my_agent,
+    validation_agent=random_agent,
+    iterations=50,
+    trainings=100,
+    validations=1000)
