@@ -5,35 +5,38 @@ import random
  
  
 class MyAgent(MLAgent):
-    def evaluate(self, board):
-        if is_winner(board, self.symbol):
-            reward = 1
-        elif is_winner(board, opponent[self.symbol]):
-            reward = -1
-        else:
-            reward = 0
-        return reward
+  def evaluate(self, board):
+    if is_winner(board, self.symbol):
+        reward = 1
+    elif is_winner(board, opponent[self.symbol]):
+      reward = -1
+    else:
+      reward = 0
+    return reward
 
 
+print("1: 2 spelers \n 2: speel tegen een getrainde computer \n 3: speel tegen een getrainde AI \n 4: train een AI en kijk hoe goed die het doet \n Kies wat je wilt spelen:")
+choice = input()
 
-
-
-train_agent = True
+train_agent = False
 play_agent = False
-score_agent = True
+score_agent = False
 graph = False
 
 
 
-if train_agent == True:
-  my_agent = MyAgent(alpha=0.1, epsilon=0.8)
+if choice == '1':
+  start()
+
+if choice == '2':
+  my_agent = MyAgent()
 
   train(my_agent, 30000)
  
   save(my_agent, 'MyAgent_30000')
     
 
-if play_agent == True:
+if choice == '2':
   my_agent = load('MyAgent_30000')
  
   my_agent.learning = False
@@ -45,9 +48,9 @@ if score_agent == True:
   my_agent.learning = False
  
   validation_agent = RandomAgent()
- 
-  validation_result = validate(agent_o=my_agent, agent_x=validation_agent, iterations=100)
- 
+
+  validation_result = validate(agent_x=my_agent, agent_o=validation_agent, iterations=100)
+
   plot_validation(validation_result)
 
 
