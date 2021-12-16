@@ -15,7 +15,12 @@ class MyAgent(MLAgent):
     return reward
 
 
-print("1: 2 spelers \n 2: speel tegen een getrainde computer \n 3: speel tegen een getrainde AI \n 4: train een AI en kijk hoe goed die het doet \n Kies wat je wilt spelen:")
+#1: 2 spelers
+#2: speel tegen een al getrainde computer
+#3: train een agent 
+#4: plot piechart
+#5: kijk welke hyperparameters de beste AI geven
+print("1: 2 spelers \n 2: speel tegen een getrainde computer \n 3: Train een AI \n 4: check hoe goed een bepaalde agent is \n 5: testen hoe goed bepaalde hyperparameter combinaties werken \n Kies wat je wilt spelen:")
 choice = input()
 
 train_agent = False
@@ -29,40 +34,70 @@ if choice == '1':
   start()
 
 if choice == '2':
-  my_agent = MyAgent()
+  print("Tegen welke agent wil je spelen? Als je tegen de agent van dit programma wilt spelen, vul in: agent1")
+  play_agent = input()
 
-  train(my_agent, 30000)
- 
-  save(my_agent, 'MyAgent_30000')
-    
 
-if choice == '2':
-  my_agent = load('MyAgent_30000')
+  my_agent = load(play_agent)
  
   my_agent.learning = False
  
   start(player_x=my_agent)    
 
-if score_agent == True:
-  my_agent = load('MyAgent_30000')
+if choice == '3':
+  print("Hoe wil je dat je agent heet?")
+  name = input()
+
+  print("hoe vaak moet je agent getraint worden?")
+  training = int(input())
+
+  print("wil je de hyperparameters aanpassen? (y/n)")
+  if input() == "y":
+    print("uitleg hyperparameter enzo, tussen 1 en 0")
+    chosen_alpha = float(input())
+    chosen_epsilon = float(input())
+    MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
+  else:
+    my_agent = MyAgent()
+
+  train(my_agent, training)
+ 
+  save(my_agent, name)
+    
+
+if choice == '4':
+  print("Hoe heet de agent")
+  name = input()
+  print("Wil je dat jouw agent x of o is? (x begint altijd)")
+  symbol = input()
+
+  my_agent = load(name)
   my_agent.learning = False
  
   validation_agent = RandomAgent()
 
-  validation_result = validate(agent_x=my_agent, agent_o=validation_agent, iterations=100)
+  if symbol == "x" or symbol == "X":
+    validation_result = validate(agent_x=my_agent, agent_o=validation_agent, iterations=100)
+
+  if symbol == "o" or symbol == "O":
+    validation_result = validate(agent_o=my_agent, agent_x=validation_agent, iterations=100)
 
   plot_validation(validation_result)
 
 
-if graph == True:
+if choice == "5":
   random.seed(1)
- 
-  my_agent = MyAgent(alpha=0.2, epsilon=0.8)
+  
+  print("uitleg hyperparameter enzo, tussen 1 en 0")
+  chosen_alpha = float(input())
+  chosen_epsilon = float(input())
+
+  my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
   random_agent = RandomAgent()
  
   train_and_plot(
       agent=my_agent,
       validation_agent=random_agent,
-      iterations=50,
+      iterations=30,
       trainings=100,
       validations=1000)
