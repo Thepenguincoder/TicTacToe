@@ -30,16 +30,25 @@ while play == "y":
   if choice == '1':
     start()
 
+
+
   if choice == '2':
     print("Tegen welke agent wil je spelen? Als je tegen de agent van dit programma wilt spelen, vul in: agent1")
     play_agent = input()
 
-
     my_agent = load(play_agent)
  
     my_agent.learning = False
- 
-    start(player_x=my_agent)    
+
+    print("Wil je x of o zijn? (x begint altijd)")
+    play_symbol = input()
+    if play_symbol == "x" or "X":
+      start(player_o=my_agent)  
+    elif play_symbol == "o" or "O":
+      start(player_x=my_agent)  
+
+
+
 
   if choice == '3':
     print("Hoe wil je dat je agent heet?")
@@ -64,6 +73,10 @@ while play == "y":
 
     print("\nJe agent is getrain en gesaven onder: " + name)
 
+
+
+
+
   if choice == '4':
     print("Als de grafiek getekend is, klik het weg om verder te gaan")
 
@@ -84,6 +97,8 @@ while play == "y":
       validation_result = validate(agent_o=my_agent, agent_x=validation_agent, iterations=100)
 
     plot_validation(validation_result)
+
+
 
 
   if choice == "5":
