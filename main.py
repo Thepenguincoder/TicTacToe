@@ -19,6 +19,8 @@ class MyAgent(MLAgent):
 #3: train een agent 
 #4: plot piechart
 #5: kijk welke hyperparameters de beste AI geven
+itterate = 150
+training = 500000
 play = "y"
 while play == "y":
   print("\n 1: 2 spelers \n 2: speel tegen een getrainde computer \n 3: Train een AI \n 4: check hoe goed een bepaalde agent is \n 5: testen hoe goed bepaalde hyperparameter combinaties werken \n Kies wat je wilt spelen: \n")
@@ -43,24 +45,28 @@ while play == "y":
     print("Hoe wil je dat je agent heet?")
     name = input()
 
-    print("hoe vaak moet je agent getraint worden?")
-    training = int(input())
+    while training >= 50000:
+      print("hoe vaak moet je agent getraint worden? (max 50000)")
+      training = int(input())
 
     print("wil je de hyperparameters aanpassen? (y/n)")
     if input() == "y":
       print("uitleg hyperparameter enzo, tussen 1 en 0")
       chosen_alpha = float(input())
       chosen_epsilon = float(input())
-      MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
+      my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
     else:
       my_agent = MyAgent()
 
     train(my_agent, training)
  
     save(my_agent, name)
-    
+
+    print("\nJe agent is getrain en gesaven onder: " + name)
 
   if choice == '4':
+    print("Als de grafiek getekend is, klik het weg om verder te gaan")
+
     print("Hoe heet de agent")
     name = input()
     print("Wil je dat jouw agent x of o is? (x begint altijd)")
@@ -81,11 +87,19 @@ while play == "y":
 
 
   if choice == "5":
+    print("Als de grafiek getekend is, klik het weg om verder te gaan")
+
     random.seed(1)
   
     print("uitleg hyperparameter enzo, tussen 1 en 0")
+    print("alpha:")
     chosen_alpha = float(input())
+    print("epsilon:")
     chosen_epsilon = float(input())
+
+    while itterate >= 51:
+      print("How many itterations doe you want to do (max 50)")
+      itterate = int(input())
 
     my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
     random_agent = RandomAgent()
@@ -94,7 +108,7 @@ while play == "y":
       agent=my_agent,
       validation_agent=random_agent,
       iterations=30,
-      trainings=100,
+      trainings=itterate,
       validations=1000)
 
   print("do you want to continue? (y/n)")
