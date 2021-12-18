@@ -17,8 +17,9 @@ def parameters():
   print("uitleg hyperparameter enzo, tussen 1 en 0")
   chosen_alpha = float(input("alpha: \n"))
   chosen_epsilon = float(input("epsilon: \n"))
-  global my_agent
+  #global my_agent
   my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
+  return my_agent
 
 
 
@@ -64,7 +65,7 @@ while True:
 
     print("wil je de hyperparameters aanpassen? (y/n)")
     if input() == "y":
-      parameters()
+      my_agent = parameters()
     else:
       my_agent = MyAgent()
 
@@ -104,15 +105,13 @@ while True:
     print("Als de grafiek getekend is, klik het weg om verder te gaan")
 
     random.seed(1)
-  
-    parameters()
 
     while True:
       itterate = int(input("How many itterations doe you want to do (max 50) \n"))
       if itterate <= 50:
         break
 
-    
+    my_agent = parameters()
     random_agent = RandomAgent()
  
     train_and_plot(
