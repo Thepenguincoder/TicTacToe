@@ -14,7 +14,7 @@ class MyAgent(MLAgent):
     return reward
 
 def parameters():
-  print("uitleg hyperparameter enzo, tussen 1 en 0")
+  print("Hyperparameters zijn parameters waarmee je de funcie en dus het gedrag van de machine-learning agent kunt aanpassen, in deze code worden twee hyperparameters gebruikt, alpha en epsilon \nAlpha: Deze parameter bepaald hoe snel de agent nieuwe kennis opneemt. Des te hoger alpha is, des the sneller de agent oude kennis zal vervangen voor nieuwe kennis \nEpsilon: Deze parameter bepaald hoe vaak de agent nieuwe zetten zal proberen, des te hoger dit getal, des te vaker de agent een random zet zal doen in plaats van de bekende beste zet   \nDe parameters moeten tussen de 1 en de 0 zijn")
   chosen_alpha = float(input("alpha: \n"))
   chosen_epsilon = float(input("epsilon: \n"))
   my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
