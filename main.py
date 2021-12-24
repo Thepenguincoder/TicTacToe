@@ -2,7 +2,8 @@ from _ml import MLAgent, train, save, load, train_and_plot, RandomAgent, validat
 from _core import is_winner, opponent, start
 import random
  
- 
+
+
 class MyAgent(MLAgent):
   def evaluate(self, board):
     if is_winner(board, self.symbol):
@@ -15,34 +16,61 @@ class MyAgent(MLAgent):
 
 def parameters():
   print("Hyperparameters zijn parameters waarmee je de funcie en dus het gedrag van de machine-learning agent kunt aanpassen, in deze code worden twee hyperparameters gebruikt, alpha en epsilon \nAlpha: Deze parameter bepaald hoe snel de agent nieuwe kennis opneemt. Des te hoger alpha is, des the sneller de agent oude kennis zal vervangen voor nieuwe kennis \nEpsilon: Deze parameter bepaald hoe vaak de agent nieuwe zetten zal proberen, des te hoger dit getal, des te vaker de agent een random zet zal doen in plaats van de bekende beste zet   \nDe parameters moeten tussen de 1 en de 0 zijn")
-  chosen_alpha = float(input("alpha: \n"))
-  chosen_epsilon = float(input("epsilon: \n"))
+  while True:
+    try:
+      chosen_alpha = float(input("alpha: \n"))
+      chosen_epsilon = float(input("epsilon: \n"))
+    except:
+      print("kies getallen tussen 0 en 1 graag")
+      continue
+    else:
+      if chosen_alpha <= 1 and chosen_epsilon <= 1:
+        break
+      else:
+        print("kies getallen tussen 0 en 1 graag")
+  
   my_agent = MyAgent(alpha=chosen_alpha, epsilon=chosen_epsilon)
   return my_agent
 
 
 
 def choiche2():
-  play_agent = input("Tegen welke agent wil je spelen? Als je tegen de agent van dit programma wilt spelen, vul in: agent1 \n")
-
-  my_agent = load(play_agent)
+  
+  while True:
+    play_agent = input("Tegen welke agent wil je spelen? Als je tegen de agent van dit programma wilt spelen, vul in: agent1, agent2 of agent3 \n")
+    try:
+      my_agent = load(play_agent)
+    except:
+      print("die agent bestaat niet, kies aub een andere")
+      continue
+    else:
+      my_agent = load(play_agent)
+      break
  
   my_agent.learning = False
 
-  play_symbol = input("Wil je x of o zijn? (x begint altijd) \n")
-  if play_symbol == "x" or "X":
-    start(player_o=my_agent)  
-  elif play_symbol == "o" or "O":
-    start(player_x=my_agent)
+  while True:
+    play_symbol = input("Wil je x of o zijn? (x begint altijd) \n")
+    if play_symbol == "x" or play_symbol == "X":
+      start(player_o=my_agent) 
+      break 
+    elif play_symbol == "o" or play_symbol == "O":
+      start(player_x=my_agent)
+      break
 
 
 def choice3():
   name = input("Hoe wil je dat je agent heet? \n")
 
   while True:
-    training = int(input("hoe vaak moet je agent getraint worden? (max 50000) \n"))
-    if training <= 50000:
-      break
+    try:
+      training = int(input("hoe vaak moet je agent getraint worden? (max 50000) \n"))
+    except:
+      print("kies een getal graag")
+      continue
+    else:
+      if training <= 50000:
+        break
 
   print("wil je de hyperparameters aanpassen? (y/n)")
   if input() == "y":
@@ -60,10 +88,22 @@ def choice3():
 def choice4():
   print("Als de grafiek getekend is, klik het weg om verder te gaan")
 
-  name = input("Hoe heet de agent \n")
-  symbol = input("Wil je dat jouw agent x of o is? (x begint altijd) \n")
-
-  my_agent = load(name)
+  while True:
+    try:
+      name = input("Hoe heet de agent \n")
+      my_agent = load(name)
+    except:
+      print("deze agent bestaat niet")
+      continue
+    else:
+      my_agent = load(name)
+      break
+  
+  while True:
+    symbol = input("Wil je dat jouw agent x of o is? (x begint altijd) \n")
+    if symbol == "o" or symbol == "O" or symbol == "x" or symbol == "X":
+      break
+  
   my_agent.learning = False
  
   validation_agent = RandomAgent()
@@ -82,9 +122,14 @@ def choice5():
   random.seed(1)
 
   while True:
-    itterate = int(input("How many itterations doe you want to do (max 50) \n"))
-    if itterate <= 50:
-      break
+    try:
+      itterate = int(input("How many itterations doe you want to do (max 50) \n"))
+    except:
+      print("kies een getal graag")
+      continue
+    else:
+      if itterate <= 50:
+        break
 
   my_agent = parameters()
   random_agent = RandomAgent()
